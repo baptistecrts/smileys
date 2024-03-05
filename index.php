@@ -4,19 +4,32 @@ function generateRandomSmiley() {
     return $smileys[array_rand($smileys)];
 }
 
+$perPage = 16;
+
+$totalSmileys = 256;
+
+$totalPages = ceil($totalSmileys / $perPage);
+
+if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    $currentPage = min(max(1, $_GET['page']), $totalPages);
+} else {
+    $currentPage = 1;
+}
+
+$startIndex = ($currentPage - 1) * $perPage;
+
 $smileys = [];
-for ($i = 0; $i < 16; $i++) {
+for ($i = 0; $i < $perPage; $i++) {
+    $row = [];
     for ($j = 0; $j < 16; $j++) {
-        $smileys[$i][$j] = generateRandomSmiley();
+        $row[] = generateRandomSmiley();
     }
+    $smileys[] = $row;
 }
 
 if (isset($_POST['regenerate'])) {
-    for ($i = 0; $i < 16; $i++) {
-        for ($j = 0; $j < 16; $j++) {
-            $smileys[$i][$j] = generateRandomSmiley();
-        }
-    }
+    header("Location: ?page=$currentPage");
+    exit();
 }
 ?>
 
@@ -59,5 +72,11 @@ if (isset($_POST['regenerate'])) {
             </tr>
         <?php endforeach; ?>
     </table>
+
+    <div>
+        <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <a href="?page=<?php echo $i; ?>"><?php echo $i; ?></a>
+        <?php endfor; ?>
+    </div>
 </body>
 </html>
