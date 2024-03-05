@@ -1,11 +1,9 @@
 <?php
-// Fonction pour générer un smiley aléatoire
 function generateRandomSmiley() {
     $smileys = ['😀', '😃', '😄', '😁', '😆', '😅', '😂', '🤣', '😊', '😇', '🙂', '🙃', '😉', '😌', '😍', '🥰'];
     return $smileys[array_rand($smileys)];
 }
 
-// Tableau de smileys
 $smileys = [];
 for ($i = 0; $i < 16; $i++) {
     for ($j = 0; $j < 16; $j++) {
@@ -13,7 +11,6 @@ for ($i = 0; $i < 16; $i++) {
     }
 }
 
-// Si le bouton "Régénérer" est soumis
 if (isset($_POST['regenerate'])) {
     for ($i = 0; $i < 16; $i++) {
         for ($j = 0; $j < 16; $j++) {
